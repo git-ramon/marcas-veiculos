@@ -124,7 +124,7 @@
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
             </template>
         </modal-component>
-        <!-- fim do modal de inclusão de marca -->
+        <!-- fim do modal de visualização de marca -->
 
 
         <!-- início do modal de remoção de marca -->
@@ -326,6 +326,7 @@ import Paginate from './Paginate.vue'
                         console.log(response)
                     })
                     .catch(errors => {
+
                         this.transacaoStatus = 'erro'
                         this.transacaoDetalhes = {
                             mensagem: errors.response.data.message,
