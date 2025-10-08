@@ -22,7 +22,7 @@ class AuthController extends Controller
             //401 = Unauthorized -> não autorizado
             //403 = forbidden -> proibido (login inválido)
         }
-
+    
         //retornar um Json Web Token
         return 'login';
     }
