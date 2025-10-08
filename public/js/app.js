@@ -3497,6 +3497,48 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+function _regenerator() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i["return"]) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2(u), _regeneratorDefine2(u, o, "Generator"), _regeneratorDefine2(u, n, function () { return this; }), _regeneratorDefine2(u, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: f }; })(); }
+function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2(e, r, n, t); }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3559,7 +3601,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['csrf_token'],
-  //data (semelhante)
   data: function data() {
     return {
       email: '',
@@ -3568,24 +3609,56 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     login: function login(e) {
-      var url = 'http://localhost:8000/api/login';
-      var configuracao = {
-        method: 'post',
-        body: new URLSearchParams({
-          'email': this.email,
-          'password': this.password
-        })
-      };
-      fetch(url, configuracao).then(function (response) {
-        return response.json();
-      }).then(function (data) {
-        if (data.token) {
-          document.cookie = 'token=' + data.token;
-        }
-      });
+      var _this = this;
+      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
+        var url, response, data, _t;
+        return _regenerator().w(function (_context) {
+          while (1) switch (_context.p = _context.n) {
+            case 0:
+              e.preventDefault(); // impede envio automático do form
+              url = 'http://localhost:8000/api/login';
+              _context.p = 1;
+              _context.n = 2;
+              return fetch(url, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/x-www-form-urlencoded',
+                  'Accept': 'application/json'
+                },
+                body: new URLSearchParams({
+                  email: _this.email,
+                  password: _this.password
+                })
+              });
+            case 2:
+              response = _context.v;
+              _context.n = 3;
+              return response.json();
+            case 3:
+              data = _context.v;
+              console.log('Resposta do login:', data);
+              if (data.token) {
+                // salva o token como cookie com path global
+                document.cookie = 'token=' + data.token + '; path=/';
+                console.log('Token salvo nos cookies:', data.token);
 
-      //dar sequência no envio do form de autenticação por sessão
-      e.target.submit();
+                // redireciona manualmente
+                window.location.href = '/home';
+              } else {
+                alert('Usuário ou senha inválido!');
+              }
+              _context.n = 5;
+              break;
+            case 4:
+              _context.p = 4;
+              _t = _context.v;
+              console.error('Erro ao tentar logar:', _t);
+              alert('Erro de conexão com o servidor.');
+            case 5:
+              return _context.a(2);
+          }
+        }, _callee, null, [[1, 4]]);
+      }))();
     }
   }
 });
@@ -39425,9 +39498,7 @@ var render = function () {
     _c("div", { staticClass: "row justify-content-center" }, [
       _c("div", { staticClass: "col-md-8" }, [
         _c("div", { staticClass: "card" }, [
-          _c("div", { staticClass: "card-header" }, [
-            _vm._v("Login (Componente Vue)"),
-          ]),
+          _c("div", { staticClass: "card-header" }, [_vm._v("Login User")]),
           _vm._v(" "),
           _c("div", { staticClass: "card-body" }, [
             _c(
@@ -40574,7 +40645,7 @@ var render = function () {
                       ? _c(
                           "button",
                           {
-                            staticClass: "btn btn-outline-primary btn-sm",
+                            staticClass: "btn btn-primary btn-sm",
                             attrs: {
                               "data-toggle": _vm.visualizar.dataToggle,
                               "data-target": _vm.visualizar.dataTarget,
@@ -40593,7 +40664,7 @@ var render = function () {
                       ? _c(
                           "button",
                           {
-                            staticClass: "btn btn-outline-primary btn-sm",
+                            staticClass: "btn btn-warning btn-sm",
                             attrs: {
                               "data-toggle": _vm.atualizar.dataToggle,
                               "data-target": _vm.atualizar.dataTarget,
@@ -40612,7 +40683,7 @@ var render = function () {
                       ? _c(
                           "button",
                           {
-                            staticClass: "btn btn-outline-danger btn-sm",
+                            staticClass: "btn btn-danger btn-sm",
                             attrs: {
                               "data-toggle": _vm.remover.dataToggle,
                               "data-target": _vm.remover.dataTarget,
@@ -52865,16 +52936,18 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 /* interceptar os requests da aplicação */
 axios.interceptors.request.use(function (config) {
-  //deinifir para todas as requisições os parâmetros de accept e autorization
   config.headers['Accept'] = 'application/json';
 
-  //recuperando o token de autorização dos cookies
-  var token = document.cookie.split(';').find(function (indice) {
-    return indice.includes('token=');
+  // tenta localizar o token no cookie
+  var cookieToken = document.cookie.split(';').find(function (indice) {
+    return indice.trim().startsWith('token=');
   });
-  token = token.split('=')[1];
-  token = 'Bearer ' + token;
-  config.headers.Authorization = token;
+  if (cookieToken) {
+    var token = cookieToken.split('=')[1];
+    config.headers.Authorization = 'Bearer ' + token;
+  } else {
+    console.warn('⚠️ Nenhum token encontrado nos cookies.');
+  }
   console.log('Interceptando o request antes do envio', config);
   return config;
 }, function (error) {
@@ -52882,12 +52955,37 @@ axios.interceptors.request.use(function (config) {
   return Promise.reject(error);
 });
 
+/*axios.interceptors.request.use(
+    config => {
+
+        //deinifir para todas as requisições os parâmetros de accept e autorization
+        config.headers['Accept'] = 'application/json'
+
+        //recuperando o token de autorização dos cookies
+        let token = document.cookie.split(';').find(indice => {
+            return indice.includes('token=')
+        })
+
+        token = token.split('=')[1]
+        token = 'Bearer ' + token
+
+        config.headers.Authorization = token
+
+        console.log('Interceptando o request antes do envio', config)
+        return config
+    },
+    error => {
+        console.log('Erro na requisição: ', error)
+        return Promise.reject(error)
+    }
+)*/
+
 /* interceptar os responses da aplicação */
 axios.interceptors.response.use(function (response) {
   console.log('Interceptando a resposta antes da aplicação', response);
   return response;
 }, function (error) {
-  console.log('Erro na resposta 2: ', error.response);
+  console.log('Erro na resposta: ', error.response);
   if (error.response.status == 401 && error.response.data.message == 'Token has expired') {
     console.log('Fazer uma nova requisição para rota refresh');
     axios.post('http://localhost:8000/api/refresh').then(function (response) {

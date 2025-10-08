@@ -45,6 +45,30 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /* interceptar os requests da aplicação */
 axios.interceptors.request.use(
     config => {
+        config.headers['Accept'] = 'application/json'
+
+        // tenta localizar o token no cookie
+        const cookieToken = document.cookie.split(';').find(indice => indice.trim().startsWith('token='))
+
+        if (cookieToken) {
+            const token = cookieToken.split('=')[1]
+            config.headers.Authorization = 'Bearer ' + token
+        } else {
+            console.warn('⚠️ Nenhum token encontrado nos cookies.')
+        }
+
+        console.log('Interceptando o request antes do envio', config)
+        return config
+    },
+    error => {
+        console.log('Erro na requisição: ', error)
+        return Promise.reject(error)
+    }
+)
+
+
+/*axios.interceptors.request.use(
+    config => {
 
         //deinifir para todas as requisições os parâmetros de accept e autorization
         config.headers['Accept'] = 'application/json'
@@ -66,7 +90,7 @@ axios.interceptors.request.use(
         console.log('Erro na requisição: ', error)
         return Promise.reject(error)
     }
-)
+)*/
 
 /* interceptar os responses da aplicação */
 axios.interceptors.response.use(
@@ -75,7 +99,7 @@ axios.interceptors.response.use(
         return response
     },
     error => {
-        console.log('Erro na resposta 2: ', error.response)
+        console.log('Erro na resposta: ', error.response)
 
         if(error.response.status == 401 && error.response.data.message == 'Token has expired') {
             console.log('Fazer uma nova requisição para rota refresh')
