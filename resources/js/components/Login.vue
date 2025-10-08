@@ -4,7 +4,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">Login (Componente Vue)</div>
+                    <div class="card-header">Login User</div>
                     <div class="card-body">
                         <form method="POST" action="" @submit.prevent="login($event)">
                             <input type="hidden" name="_token" :value="csrf_token">
@@ -92,3 +92,57 @@
         }
     }
 </script>
+
+
+
+<script>
+export default {
+    props: ['csrf_token'],
+    data() {
+        return {
+            email: '',
+            password: ''
+        }
+    },
+    methods: {
+        async login(e) {
+            e.preventDefault() // impede envio automático do form
+
+            const url = 'http://localhost:8000/api/login'
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'Accept': 'application/json'
+                    },
+                    body: new URLSearchParams({
+                        email: this.email,
+                        password: this.password
+                    })
+                })
+
+                const data = await response.json()
+                console.log('Resposta do login:', data)
+
+                if (data.token) {
+                    // salva o token como cookie com path global
+                    document.cookie = 'token=' + data.token + '; path=/'
+                    console.log('Token salvo nos cookies:', data.token)
+
+                    // redireciona manualmente
+                    window.location.href = '/home'
+                } else {
+                    alert('Usuário ou senha inválido!')
+                }
+
+            } catch (error) {
+                console.error('Erro ao tentar logar:', error)
+                alert('Erro de conexão com o servidor.')
+            }
+        }
+    }
+}
+</script>
+
