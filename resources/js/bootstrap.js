@@ -43,7 +43,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 // });
 
 /* interceptar os requests da aplicação */
-axios.interceptors.request.use(
+/*axios.interceptors.request.use(
     config => {
         config.headers['Accept'] = 'application/json'
 
@@ -54,7 +54,7 @@ axios.interceptors.request.use(
             const token = cookieToken.split('=')[1]
             config.headers.Authorization = 'Bearer ' + token
         } else {
-            console.warn('⚠️ Nenhum token encontrado nos cookies.')
+            console.warn('Nenhum token encontrado nos cookies.')
         }
 
         console.log('Interceptando o request antes do envio', config)
@@ -64,7 +64,7 @@ axios.interceptors.request.use(
         console.log('Erro na requisição: ', error)
         return Promise.reject(error)
     }
-)
+)*/
 
 
 /*axios.interceptors.request.use(
