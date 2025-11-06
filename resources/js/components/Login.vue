@@ -58,16 +58,17 @@
 </template>
 
 <script>
-    export default {
-        props: ['csrf_token'], //data (semelhante)
-        data() {
-            return {
-                email: '',
-                password: ''
-            }
-        },
-        methods: {
-            login(e) {
+
+export default {
+    props: ['csrf_token'],
+    data() {
+        return {
+            email: '',
+            password: ''
+        }
+    },
+    methods: {
+        login(e) {
 
                 let url = 'http://localhost:8000/api/login'
                 let configuracao = {
@@ -84,18 +85,19 @@
                         if(data.token) {
                             document.cookie = 'token='+data.token
                         }
-                    })
-                
-                //dar sequência no envio do form de autenticação por sessão
+                    })  
+
+             //dar sequência no envio do form de autenticação por sessão
                 e.target.submit()
             }
         }
     }
+
 </script>
 
 
-
-<script>
+<!--<script>
+/*
 export default {
     props: ['csrf_token'],
     data() {
@@ -132,7 +134,7 @@ export default {
                     console.log('Token salvo nos cookies:', data.token)
 
                     // redireciona manualmente
-                    window.location.href = '/home'
+                    window.location.href = '/home';
                 } else {
                     alert('Usuário ou senha inválido!')
                 }
@@ -144,5 +146,7 @@ export default {
         }
     }
 }
-</script>
+*/
+</script>-->
+
 

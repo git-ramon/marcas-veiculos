@@ -100,7 +100,7 @@
                     <li class="breadcrumb-item active" aria-current="page">{{Route::currentRouteName()}}</li>
                 </ol>
             </nav>
-        @endauth
+         @endauth 
 
         <main class="py-4">
             @yield('content')
