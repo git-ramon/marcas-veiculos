@@ -4,22 +4,25 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-require('./bootstrap');
+import 'bootstrap/dist/css/bootstrap.min.css';
+import * as bootstrap from 'bootstrap'; 
 
-window.Vue = require('vue').default;
+// Disponibiliza o Bootstrap globalmente
+window.bootstrap = bootstrap;
 
 import Vue from 'vue';
-/* importando e configurando o vuex*/
-import Vuex from 'Vuex'
+import Vuex from 'vuex';
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 const store = new Vuex.Store({
     state: {
         item: {},
         transacao: { status: '', mensagem: '', dados: '' }
     }
-})
+});
+
+require('./bootstrap');
 
 /**
  * The following block of code may be used to automatically register your
@@ -36,6 +39,7 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 Vue.component('login-component', require('./components/Login.vue').default);
 Vue.component('home-component', require('./components/Home.vue').default);
 Vue.component('marcas-component', require('./components/Marcas.vue').default);
+Vue.component('modelos-component', require('./components/Modelos.vue').default);
 Vue.component('input-container-component', require('./components/InputContainer.vue').default);
 Vue.component('table-component', require('./components/Table.vue').default);
 Vue.component('card-component', require('./components/Card.vue').default);
