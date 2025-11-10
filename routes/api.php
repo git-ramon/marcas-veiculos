@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +31,8 @@ Route::prefix('v1')->middleware('jwt.auth')->group(function() {
     Route::apiResource('locacao', 'App\Http\Controllers\LocacaoController');
     Route::apiResource('marca', 'App\Http\Controllers\MarcaController');
     Route::apiResource('modelo', 'App\Http\Controllers\ModeloController');
+
+    Route::get('/dashboard/indicadores', [DashboardController::class, 'indicadores']);
 });
 
     Route::post('login', 'App\Http\Controllers\AuthController@login');
