@@ -170,4 +170,9 @@ class MarcaController extends Controller
         return response()->json(['msg' => 'A marca foi removida com sucesso!'], 200);
         
     }
+
+    public function todas() {
+        return Marca::select('id', 'nome')->orderBy('nome')->get();
+    }
+
 }

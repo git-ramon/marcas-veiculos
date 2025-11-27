@@ -18,8 +18,8 @@ class ModeloController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
-    {
+    public function index(Request $request){
+
         $modeloRepository = new ModeloRepository($this->modelo);
 
         if($request->has('atributos_marca')) {
@@ -37,6 +37,26 @@ class ModeloController extends Controller
             $modeloRepository->selectAtributos($request->atributos);
         } 
 
+        $devePaginar = false;
+        if ($request->has('paginar') && $request->query('paginar') == '1') {
+            $devePaginar = true;
+        } elseif ($request->has('page')) {
+            // se veio page=..., provavelmente é requisição que quer paginação
+            $devePaginar = true;
+        }
+
+        if ($devePaginar) {
+            // Se seu ModeloRepository tem método getResultadoPaginado, use-o:
+            if (method_exists($modeloRepository, 'getResultadoPaginado')) {
+                return response()->json($modeloRepository->getResultadoPaginado(3), 200);
+            }
+
+            // fallback: usar Eloquent com paginate(3) garantindo relação marca
+            $dados = Modelo::with('marca')->paginate(3);
+            return response()->json($dados, 200);
+        }
+
+        // comportamento padrão: retorno não-paginado (array), como antes
         return response()->json($modeloRepository->getResultado(), 200);
     }
 
@@ -110,8 +130,8 @@ class ModeloController extends Controller
      * @param  \App\Models\Modelo  $modelo
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
+    /*
+    public function update(Request $request, $id){
         $modelo = $this->modelo->find($id);
 
         if($modelo === null) {
@@ -148,19 +168,54 @@ class ModeloController extends Controller
         $modelo->fill($request->all());
         $modelo->imagem = $imagem_urn;
         $modelo->save();
-        /*
-        $modelo->update([
-            'marca_id' => $request->marca_id,
-            'nome' => $request->nome,
-            'imagem' => $imagem_urn,
-            'numero_portas' => $request->numero_portas,
-            'lugares' => $request->lugares,
-            'air_bag' => $request->air_bag,
-            'abs' => $request->abs
-        ]);
-        */
+       
         return response()->json($modelo, 200);
+    }*/
+
+    public function update(Request $request, $id){
+            $modelo = $this->modelo->find($id);
+
+            if($modelo === null) {
+                return response()->json(['erro' => 'Impossível realizar a atualização. O recurso solicitado não existe'], 404);
+            }
+
+            // Validação dinâmica para PATCH
+            if ($request->method() === 'PATCH') {
+                $regrasDinamicas = [];
+
+            foreach ($modelo->rules() as $input => $regra) {
+                if (array_key_exists($input, $request->all())) {
+                    $regrasDinamicas[$input] = $regra;
+                }
+            }
+
+            $request->validate($regrasDinamicas);
+            } else {
+                $request->validate($modelo->rules());
+            }
+
+            // Se uma nova imagem foi enviada
+            if ($request->hasFile('imagem')) {
+
+                // Apagar imagem antiga
+                Storage::disk('public')->delete($modelo->imagem);
+
+                // Salvar nova imagem
+                $imagem = $request->file('imagem');
+                $imagem_urn = $imagem->store('imagens/modelos', 'public');
+
+                // Atualizar atributo imagem
+                $modelo->imagem = $imagem_urn;
+            }
+
+            // Atualizar os demais campos
+            $modelo->fill($request->except('imagem'));
+
+            $modelo->save();
+
+            return response()->json($modelo, 200);
     }
+
 
     /**
      * Remove the specified resource from storage.
