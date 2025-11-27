@@ -83,12 +83,13 @@ export default {
                     .then(response => response.json())
                     .then(data => {
                         if(data.token) {
-                            document.cookie = 'token='+data.token
+                            document.cookie = 'token='+data.token+';SameSite=Lax'
                         }
-                    })  
 
-             //dar sequência no envio do form de autenticação por sessão
+                //dar sequência no envio do form de autenticação por sessão
                 e.target.submit()
+
+                })  
             }
         }
     }

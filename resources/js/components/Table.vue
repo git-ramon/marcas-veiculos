@@ -17,8 +17,14 @@
                         <span v-if="titulos[chaveValor].tipo == 'imagem'">
                             <img :src="'/storage/'+valor" width="30" height="30">
                         </span>
+                        <span v-if="titulos[chaveValor].tipo == 'booleano'">
+                            {{ valor ? 'Sim' : 'Não' }}
+                        </span>
+                        <span v-if="titulos[chaveValor].tipo === 'relacao'">
+                            {{ valor.nome }}
+                        </span>
                     </td>
-                    <td v-if="visualizar.visivel || atualizar.visivel || remover.visivel">
+                    <td v-if="visualizar.visivel || atualizar.visivel || remover.visivel" class="acoes">
                         <button v-if="visualizar.visivel" class="btn btn-primary btn-sm" :data-toggle="visualizar.dataToggle" :data-target="visualizar.dataTarget" @click="setStore(obj)">Visualizar</button>
                         <button v-if="atualizar.visivel" class="btn btn-warning btn-sm" :data-toggle="atualizar.dataToggle" :data-target="atualizar.dataTarget" @click="setStore(obj)">Atualizar</button>
                         <button v-if="remover.visivel" class="btn btn-danger btn-sm" :data-toggle="remover.dataToggle" :data-target="remover.dataTarget" @click="setStore(obj)">Remover</button>
@@ -37,7 +43,11 @@
                 this.$store.state.transacao.status = ''
                 this.$store.state.transacao.mensagem = ''
                 this.$store.state.transacao.dados = ''
-                this.$store.state.item = obj
+                this.$store.state.item = obj;
+
+                if (obj.marca) {
+                    this.$store.state.item.marca_id = obj.marca.id;
+                }
             }
         },
         computed: {

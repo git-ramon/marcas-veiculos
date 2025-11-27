@@ -1,51 +1,4 @@
-<!--<template>
-  <div class="container mt-4">
-    <h2 class="text-center mb-4">Modelos de Veículos</h2>
-
-    <div class="row">
-      <div v-for="modelo in modelos" :key="modelo.id" class="col-md-4 mb-4">
-        <div class="card h-100 shadow-sm border-0 rounded-4">
-          <img :src="'/storage/' + modelo.imagem" class="card-img-top" alt="Imagem do modelo" style="height: 200px; object-fit: cover;" />
-          <div class="card-body">
-            <h5 class="card-title">{{ modelo.nome }}</h5>
-            <p><strong>Portas:</strong> {{ modelo.numero_portas }}</p>
-            <p><strong>Lugares:</strong> {{ modelo.lugares }}</p>
-            <p><strong>Airbag:</strong> {{ modelo.air_bag ? 'Sim' : 'Não' }}</p>
-            <p><strong>ABS:</strong> {{ modelo.abs ? 'Sim' : 'Não' }}</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
-
-
-<script>
-import axios from "axios";
-
-export default {
-  name: "Modelos",
-  data() {
-    return {
-      modelos: [],
-    };
-  },
-  mounted() {
-    this.getModelos();
-  },
-  methods: {
-    async getModelos() {
-      try {
-        const response = await axios.get("/api/v1/modelo");
-        this.modelos = response.data;
-      } catch (error) {
-        console.error("Erro ao buscar modelos:", error);
-      }
-    },
-  },
-};
-</script>-->
-
+<!--
 <template>
   <div class="carousel slide" id="carouselExampleControls" data-bs-ride="carousel">
     <h2 class="text-center mb-4">Modelos de Veículos</h2>
@@ -54,7 +7,7 @@ export default {
       <div class="carousel-item active">
         <div class="d-flex justify-content-center align-items-center" style="min-height: 50vh;">
             <div class="row">
-            <div v-for="(modelo, index) in modelos" :key="modelo.id" v-if="modelo.id === 1" class="">
+            <div v-for="(modelo, index) in modelos" :key="index" v-if="modelo && modelo.id === 1" class="">
                 <div class="card border-0">
                 <img :src="'/storage/' + modelo.imagem" class="card-img-top" alt="Imagem do modelo" style="height: 35vh" />
                     <div class="card-body text-center" style="white-space: nowrap; overflow-x: auto;">
@@ -75,7 +28,7 @@ export default {
       <div class="carousel-item">
         <div class="d-flex justify-content-center align-items-center" style="min-height: 50vh;">
             <div class="row">
-            <div v-for="(modelo, index) in modelos" :key="modelo.id" v-if="modelo.id === 2" class="">
+            <div v-for="(modelo, index) in modelos" :key="index" v-if="modelo && modelo.id === 2" class="">
                 <div class="card border-0">
                 <img :src="'/storage/' + modelo.imagem" class="card-img-top" alt="Imagem do modelo" style="height: 35vh" />
                     <div class="card-body text-center" style="white-space: nowrap; overflow-x: auto;">
@@ -96,7 +49,7 @@ export default {
       <div class="carousel-item">
         <div class="d-flex justify-content-center align-items-center" style="min-height: 50vh;">
             <div class="row">
-            <div v-for="(modelo, index) in modelos" :key="modelo.id" v-if="modelo.id === 3" class="">
+            <div v-for="(modelo, index) in modelos" :key="index" v-if="modelo && modelo.id === 3" class="">
                 <div class="card border-0">
                 <img :src="'/storage/' + modelo.imagem" class="card-img-top" alt="Imagem do modelo" style="height: 35vh" />
                     <div class="card-body text-center" style="white-space: nowrap; overflow-x: auto;">
@@ -117,7 +70,7 @@ export default {
       <div class="carousel-item">
         <div class="d-flex justify-content-center align-items-center" style="min-height: 50vh;">
             <div class="row">
-            <div v-for="(modelo, index) in modelos" :key="modelo.id" v-if="modelo.id === 4" class="">
+            <div v-for="(modelo, index) in modelos" :key="index" v-if="modelo && modelo.id === 4" class="">
                 <div class="card border-0">
                 <img :src="'/storage/' + modelo.imagem" class="card-img-top" alt="Imagem do modelo" style="height: 35vh" />
                     <div class="card-body text-center" style="white-space: nowrap; overflow-x: auto;">
@@ -138,29 +91,7 @@ export default {
       <div class="carousel-item">
         <div class="d-flex justify-content-center align-items-center" style="min-height: 50vh;">
             <div class="row">
-            <div v-for="(modelo, index) in modelos" :key="modelo.id" v-if="modelo.id === 5" class="">
-                <div class="card border-0">
-                <img :src="'/storage/' + modelo.imagem" class="card-img-top" alt="Imagem do modelo" style="height: 35vh" />
-                    <div class="card-body text-center" style="white-space: nowrap; overflow-x: auto;">
-                        <h5 class="card-title mb-3">{{ modelo.nome }}</h5>
-                        <div class="d-flex justify-content-center flex-wrap gap-3">
-                            <p><strong>Portas:</strong> {{ modelo.numero_portas }}</p>
-                            <p><strong>Lugares:</strong> {{ modelo.lugares }}</p>
-                            <p><strong>Airbag:</strong> {{ modelo.air_bag ? 'Sim' : 'Não' }}</p>
-                            <p><strong>ABS:</strong> {{ modelo.abs ? 'Sim' : 'Não' }}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        </div>
-
-      </div>
-
-      <div class="carousel-item">
-        <div class="d-flex justify-content-center align-items-center" style="min-height: 50vh;">
-            <div class="row">
-            <div v-for="(modelo, index) in modelos" :key="modelo.id" v-if="modelo.id === 6" class="">
+            <div v-for="(modelo, index) in modelos" :key="index" v-if="modelo && modelo.id === 5" class="">
                 <div class="card border-0">
                 <img :src="'/storage/' + modelo.imagem" class="card-img-top" alt="Imagem do modelo" style="height: 35vh" />
                     <div class="card-body text-center" style="white-space: nowrap; overflow-x: auto;">
@@ -182,7 +113,7 @@ export default {
       <div class="carousel-item">
         <div class="d-flex justify-content-center align-items-center" style="min-height: 50vh;">
             <div class="row">
-            <div v-for="(modelo, index) in modelos" :key="modelo.id" v-if="modelo.id === 7" class="">
+            <div v-for="(modelo, index) in modelos" :key="index" v-if="modelo && modelo.id === 6" class="">
                 <div class="card border-0">
                 <img :src="'/storage/' + modelo.imagem" class="card-img-top" alt="Imagem do modelo" style="height: 35vh" />
                     <div class="card-body text-center" style="white-space: nowrap; overflow-x: auto;">
@@ -204,7 +135,7 @@ export default {
       <div class="carousel-item">
         <div class="d-flex justify-content-center align-items-center" style="min-height: 50vh;">
             <div class="row">
-            <div v-for="(modelo, index) in modelos" :key="modelo.id" v-if="modelo.id === 8" class="">
+            <div v-for="(modelo, index) in modelos" :key="index" v-if="modelo && modelo.id === 7" class="">
                 <div class="card border-0">
                 <img :src="'/storage/' + modelo.imagem" class="card-img-top" alt="Imagem do modelo" style="height: 35vh" />
                     <div class="card-body text-center" style="white-space: nowrap; overflow-x: auto;">
@@ -222,6 +153,50 @@ export default {
         </div>
 
       </div>
+
+      <div class="carousel-item">
+        <div class="d-flex justify-content-center align-items-center" style="min-height: 50vh;">
+            <div class="row">
+            <div v-for="(modelo, index) in modelos" :key="index" v-if="modelo && modelo.id === 8" class="">
+                <div class="card border-0">
+                <img :src="'/storage/' + modelo.imagem" class="card-img-top" alt="Imagem do modelo" style="height: 35vh" />
+                    <div class="card-body text-center" style="white-space: nowrap; overflow-x: auto;">
+                        <h5 class="card-title mb-3">{{ modelo.nome }}</h5>
+                        <div class="d-flex justify-content-center flex-wrap gap-3">
+                            <p><strong>Portas:</strong> {{ modelo.numero_portas }}</p>
+                            <p><strong>Lugares:</strong> {{ modelo.lugares }}</p>
+                            <p><strong>Airbag:</strong> {{ modelo.air_bag ? 'Sim' : 'Não' }}</p>
+                            <p><strong>ABS:</strong> {{ modelo.abs ? 'Sim' : 'Não' }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+      </div>
+
+      <div class="carousel-item">
+        <div class="d-flex justify-content-center align-items-center" style="min-height: 50vh;">
+            <div class="row">
+            <div v-for="(modelo, index) in modelos" :key="index" v-if="modelo && modelo.id === 9" class="">
+                <div class="card border-0">
+                <img :src="'/storage/' + modelo.imagem" class="card-img-top" alt="Imagem do modelo" style="height: 35vh" />
+                    <div class="card-body text-center" style="white-space: nowrap; overflow-x: auto;">
+                        <h5 class="card-title mb-3">{{ modelo.nome }}</h5>
+                        <div class="d-flex justify-content-center flex-wrap gap-3">
+                            <p><strong>Portas:</strong> {{ modelo.numero_portas }}</p>
+                            <p><strong>Lugares:</strong> {{ modelo.lugares }}</p>
+                            <p><strong>Airbag:</strong> {{ modelo.air_bag ? 'Sim' : 'Não' }}</p>
+                            <p><strong>ABS:</strong> {{ modelo.abs ? 'Sim' : 'Não' }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+      </div>
+
     </div>
 
     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
@@ -233,21 +208,45 @@ export default {
       <span class="visually-hidden">Próximo >></span>
     </button>
 
-    <!-- Card com informações -->
-    <!--<div class="row">
-      <div v-for="modelo in modelos" :key="modelo.id" class="col-md-4 mb-4">
-        <div class="card h-100 shadow-sm border-0 rounded-4">
-   
-          <div class="card-body">
-            <h5 class="card-title">{{ modelo.nome }}</h5>
-            <p><strong>Portas:</strong> {{ modelo.numero_portas }}</p>
-            <p><strong>Lugares:</strong> {{ modelo.lugares }}</p>
-            <p><strong>Airbag:</strong> {{ modelo.air_bag ? 'Sim' : 'Não' }}</p>
-            <p><strong>ABS:</strong> {{ modelo.abs ? 'Sim' : 'Não' }}</p>
+  </div>
+</template>-->
+
+<template>
+  <div class="carousel slide" id="carouselExampleControls" data-bs-ride="carousel">
+    <h2 class="text-center mb-4">Modelos de Veículos</h2>
+
+    <div class="carousel-inner">
+      <div
+        class="carousel-item" v-for="(modelo, index) in modelos" :key="modelo.id" :class="{ active: index === 0 }" >
+        <div class="d-flex justify-content-center align-items-center" style="min-height: 50vh;">
+          <div class="row">
+            <div class="card border-0">
+              <img :src="'/storage/' + modelo.imagem" class="card-img-top" alt="" style="height: 35vh" />
+              <div class="card-body text-center" style="white-space: nowrap; overflow-x: auto;">
+                <h5 class="card-title mb-3">{{ modelo.nome }}</h5>
+                <div class="d-flex justify-content-center flex-wrap gap-3">
+                  <p><strong>Portas:</strong> {{ modelo.numero_portas }}</p>
+                  <p><strong>Lugares:</strong> {{ modelo.lugares }}</p>
+                  <p><strong>Airbag:</strong> {{ modelo.air_bag ? 'Sim' : 'Não' }}</p>
+                  <p><strong>ABS:</strong> {{ modelo.abs ? 'Sim' : 'Não' }}</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>-->
+    </div>
+
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden"><< Anterior</span>
+    </button>
+
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Próximo >></span>
+    </button>
+
   </div>
 </template>
 
