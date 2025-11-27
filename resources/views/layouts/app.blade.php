@@ -16,6 +16,10 @@
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
+     <!-- Font-awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
@@ -48,7 +52,21 @@
                                     <!--<a class="dropdown-item" href="#">Carros</a>
                                     <div class="dropdown-divider"></div>-->
                                     <a class="dropdown-item" href="{{ route('marcas') }}">Marcas</a>
-                                    <a class="dropdown-item" href="{{ route('modelos') }}">Modelos</a>
+
+                                    
+                                    <div class="dropdown-submenu">
+                                        <a class="dropdown-item submenu-link" href="{{ route('modelos') }}">Modelos 
+                                            <span class="submenu-arrow">
+                                                <i class="fas fa-chevron-right"></i>
+                                            </span> 
+                                        </a>
+
+                                        <!-- Submenu de Modelos -->
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item" href="{{ route('gerenciarmodelos') }}">Gerenciar Modelos</a>
+                                        </div>
+                                    </div>
+                                        
                                 </div>
                             </li>
                         @endauth
