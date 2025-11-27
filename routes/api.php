@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\MarcaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,17 +25,20 @@ Route::prefix('v1')->middleware('jwt.auth')->group(function() {
 
     Route::post('me', 'App\Http\Controllers\AuthController@me');
     Route::post('logout', 'App\Http\Controllers\AuthController@logout');
-    Route::post('refresh', 'App\Http\Controllers\AuthController@refresh');
 
     Route::apiResource('cliente', 'App\Http\Controllers\ClienteController');
     Route::apiResource('carro', 'App\Http\Controllers\CarroController');
     Route::apiResource('locacao', 'App\Http\Controllers\LocacaoController');
     Route::apiResource('marca', 'App\Http\Controllers\MarcaController');
     Route::apiResource('modelo', 'App\Http\Controllers\ModeloController');
+    Route::apiResource('gerenciarmodelos', 'App\Http\Controllers\GerenciarModelosController');
 
     Route::get('/dashboard/indicadores', [DashboardController::class, 'indicadores']);
+    Route::get('/marca-todas', [MarcaController::class, 'todas']);
+
 });
 
     Route::post('login', 'App\Http\Controllers\AuthController@login');
+    Route::post('refresh', 'App\Http\Controllers\AuthController@refresh');
     
 

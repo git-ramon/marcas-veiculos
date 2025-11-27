@@ -17,17 +17,24 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
-Auth::routes();
-Route::view('/home', 'home')->name('home');
-
-Route::get('/marcas', function() {
-    return view('app.marcas');
-})->name('marcas');
+// Rotas públicas (login, register, etc)
 Auth::routes();
 
-Route::get('/modelos', function () {
-    return view('app.modelos');
-})->name('modelos');
+// Rotas protegidas
+Route::middleware('auth')->group(function () {
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::view('/home', 'home')->name('home');
+
+    Route::get('/marcas', function() {
+        return view('app.marcas');
+    })->name('marcas');
+
+    Route::get('/modelos', function () {
+        return view('app.modelos');
+    })->name('modelos');
+
+    Route::get('/gerenciarmodelos', function () {
+        return view('app.gerenciarmodelos'); 
+    })->name('gerenciarmodelos');
+});
 
