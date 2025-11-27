@@ -67,7 +67,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 )*/
 
 
-/*axios.interceptors.request.use(
+axios.interceptors.request.use(
     config => {
 
         //deinifir para todas as requisições os parâmetros de accept e autorization
@@ -90,7 +90,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
         console.log('Erro na requisição: ', error)
         return Promise.reject(error)
     }
-)*/
+)
 
 /* interceptar os responses da aplicação */
 axios.interceptors.response.use(
