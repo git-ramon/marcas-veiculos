@@ -9249,3 +9249,49 @@ a.text-dark:hover, a.text-dark:focus {
     border-color: #dee2e6;
   }
 }
+
+.submenu-link {
+    display: flex;
+    align-items: center;
+    padding-right: 25px;     /* espaço para o ícone */
+    position: relative;
+}
+
+/* seta totalmente à direita */
+.submenu-arrow {
+    position: absolute;
+    right: 10px;             /* encostado no canto */
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* deixa o ícone menor */
+.submenu-arrow i {
+    font-size: 10px;         /* tamanho reduzido */
+    opacity: 0.7;            /* opcional: deixa mais suave */
+}
+
+.dropdown-submenu {
+    position: relative;
+}
+
+/* abrir no hover */
+.dropdown-submenu:hover .dropdown-menu {
+    display: block;
+}
+
+.dropdown-submenu .dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-left: .1rem;
+}
+
+.acoes {
+    display: flex;
+    gap: 5px;          /* espaço entre os botões */
+    align-items: center;
+}
+
+.container-modelo {
+  max-width: 1200px !important;
+}
