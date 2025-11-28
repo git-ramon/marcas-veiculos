@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +20,13 @@ Route::get('/', function () {
 
 // Rotas públicas (login, register, etc)
 Auth::routes();
+
+Route::post('/force-logout', function () {
+    Auth::logout();
+    request()->session()->invalidate();
+    return response()->json(['ok' => true]);
+});
+
 
 // Rotas protegidas
 Route::middleware('auth')->group(function () {
