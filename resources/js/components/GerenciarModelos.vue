@@ -703,7 +703,18 @@ export default {
         this.urlPaginacao = 'page=1'
         this.carregarLista()
         this.carregarMarcas()
-    }
+    },
+
+    watch: {
+            transacaoStatus(novo) {
+                if (novo !== null && novo !== '') {
+                    setTimeout(() => {
+                        this.transacaoStatus = null;
+                        this.transacaoDetalhes = null;
+                    }, 5000); // 5 segundos
+                }
+            }
+        }
 }
 </script>
 
