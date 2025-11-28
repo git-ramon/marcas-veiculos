@@ -321,9 +321,21 @@ import Paginate from './Paginate.vue'
                         this.transacaoStatus = 'adicionado'
                         this.transacaoDetalhes = {
                             mensagem: 'ID do registro: ' + response.data.id
-                        }
+                        };
                         
-                        console.log(response)
+                        // limpar campos após salvar
+                        this.nomeMarca = "";
+                        this.arquivoImagem = [];
+
+                        // limpar input file manualmente
+                        const inputFile = document.getElementById('novoImagem');
+                        if (inputFile) inputFile.value = "";
+
+                        // recarregar lista após cadastro
+                        this.carregarLista();
+
+                        // opcional: fechar modal automaticamente
+                        // this.$refs.meuModal.hide();
                     })
                     .catch(errors => {
 
@@ -338,6 +350,17 @@ import Paginate from './Paginate.vue'
         },
         mounted() {
             this.carregarLista()
+        },
+
+        watch: {
+            transacaoStatus(novo) {
+                if (novo !== null && novo !== '') {
+                    setTimeout(() => {
+                        this.transacaoStatus = null;
+                        this.transacaoDetalhes = null;
+                    }, 5000); // 5 segundos
+                }
+            }
         }
     }
 </script>
