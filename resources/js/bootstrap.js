@@ -1,12 +1,10 @@
+/*
+import Swal from 'sweetalert2';
+
 const { default: axios } = require('axios');
 
 window._ = require('lodash');
 
-/**
- * We'll load jQuery and the Bootstrap jQuery plugin which provides support
- * for JavaScript based Bootstrap features such as modals and tabs. This
- * code may be modified to fit the specific needs of your application.
- */
 
 try {
     window.Popper = require('popper.js').default;
@@ -15,56 +13,10 @@ try {
     require('bootstrap');
 } catch (e) {}
 
-/**
- * We'll load the axios HTTP library which allows us to easily issue requests
- * to our Laravel back-end. This library automatically handles sending the
- * CSRF token as a header based on the value of the "XSRF" token cookie.
- */
 
 window.axios = require('axios');
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-
-/**
- * Echo exposes an expressive API for subscribing to channels and listening
- * for events that are broadcast by Laravel. Echo and event broadcasting
- * allows your team to easily build robust real-time web applications.
- */
-
-// import Echo from 'laravel-echo';
-
-// window.Pusher = require('pusher-js');
-
-// window.Echo = new Echo({
-//     broadcaster: 'pusher',
-//     key: process.env.MIX_PUSHER_APP_KEY,
-//     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
-//     forceTLS: true
-// });
-
-/* interceptar os requests da aplicação */
-/*axios.interceptors.request.use(
-    config => {
-        config.headers['Accept'] = 'application/json'
-
-        // tenta localizar o token no cookie
-        const cookieToken = document.cookie.split(';').find(indice => indice.trim().startsWith('token='))
-
-        if (cookieToken) {
-            const token = cookieToken.split('=')[1]
-            config.headers.Authorization = 'Bearer ' + token
-        } else {
-            console.warn('Nenhum token encontrado nos cookies.')
-        }
-
-        console.log('Interceptando o request antes do envio', config)
-        return config
-    },
-    error => {
-        console.log('Erro na requisição: ', error)
-        return Promise.reject(error)
-    }
-)*/
 
 
 axios.interceptors.request.use(
@@ -88,11 +40,12 @@ axios.interceptors.request.use(
     },
     error => {
         console.log('Erro na requisição: ', error)
+
         return Promise.reject(error)
     }
 )
 
-/* interceptar os responses da aplicação */
+// interceptar os responses da aplicação
 axios.interceptors.response.use(
     response => {
         console.log('Interceptando a resposta antes da aplicação', response)
@@ -112,7 +65,155 @@ axios.interceptors.response.use(
                     console.log('Token atualizado: ', response.data.token)
                     window.location.reload()
                 })
+
+                .catch(refreshError => {
+
+                    console.log('Erro no refresh: ', refreshError)
+
+                    // SE O REFRESH TAMBÉM FALHAR → SESSÃO REALMENTE EXPIRADA
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Sessão Expirada',
+                        text: 'Sua sessão expirou. Faça login novamente.',
+                        confirmButtonText: 'OK'
+                    }).then(() => {
+
+                        // remove token
+                        document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/';
+
+                        // redireciona para login
+                        window.location.href = '/login';
+                    });
+                })
         }
+
         return Promise.reject(error)
     }
 )
+*/
+
+/**
+ * Bootstrap JS para Laravel + Axios + SweetAlert2
+ */
+
+import _ from 'lodash';
+window._ = _;
+
+import Swal from 'sweetalert2';
+window.Swal = Swal;
+
+/**
+ * Configuração do Axios
+ */
+import axios from 'axios';
+window.axios = axios;
+
+// Sempre enviar este cabeçalho
+window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
+// Token CSRF
+const token = document.head.querySelector('meta[name="csrf-token"]');
+
+if (token) {
+    window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+} else {
+    console.error('CSRF token não encontrado. Verifique a tag <meta name="csrf-token"> no seu layout.');
+}
+
+/**
+ * Interceptor GLOBAL – captura 401 e força logout
+ */
+
+
+let isHandling401 = false; // evita múltiplos popups/requests simultâneos
+
+window.axios.interceptors.response.use(
+  response => response,
+  async error => {
+    // se não houver resposta (timeout, network), deixa seguir
+    if (!error.response) return Promise.reject(error);
+
+    const status = error.response.status;
+
+    // Se já estamos tratando um 401, rejeita silenciosamente
+    if (status === 401 && isHandling401) {
+      return Promise.reject(error);
+    }
+
+    if (status === 401) {
+      isHandling401 = true;
+
+      try {
+        // Primeiro: se houver mensagem do backend informando token expirado,
+        // podemos tentar refresh — MAS seu objetivo é forçar logout, então vamos direto para o logout WEB.
+        // Tenta derrubar a sessão Laravel via rota POST /force-logout (deve existir em web.php)
+        try {
+          // Chama rota web para destruir session (CSRF header já configurado)
+          await window.axios.post('/force-logout');
+        } catch (e) {
+          // se der erro, ignora - ainda vamos seguir removendo token e redirecionando
+          console.warn('Erro ao chamar /force-logout (pode ser ok):', e);
+        }
+
+        // Remove o token do cookie (JWT)
+        deleteCookie('token');
+        // Também remove de localStorage caso vc use lá
+        localStorage.removeItem('token');
+
+        // Exibe alerta pro usuário e redireciona após confirmação
+        await Swal.fire({
+          icon: 'warning',
+          title: 'Sessão expirada',
+          text: 'Sua sessão expirou. Faça login novamente.',
+          confirmButtonText: 'OK',
+          allowOutsideClick: false,
+          allowEscapeKey: false
+        });
+
+        // Redirecionamento definitivo para login
+        window.location.replace('/login');
+
+        // Rejeita a promise para bloquear o .then do componente
+        return Promise.reject(new Error('Sessão expirada - redirecionando'));
+      } finally {
+        isHandling401 = false;
+      }
+    }
+
+    return Promise.reject(error);
+  }
+);
+
+
+// helpers de cookie
+function getCookie(name) {
+  const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+  return match ? decodeURIComponent(match[2]) : null;
+}
+
+function deleteCookie(name) {
+  document.cookie = name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+}
+
+window.axios.interceptors.request.use(
+  config => {
+    config.headers['Accept'] = 'application/json';
+
+    const raw = getCookie('token');
+    if (raw) {
+      // se token existe no cookie, espera formato puro (sem 'Bearer ')
+      // ajuste se o cookie já salva 'Bearer <token>'
+      let token = raw;
+      if (!token.startsWith('Bearer ')) token = 'Bearer ' + token;
+      config.headers['Authorization'] = token;
+    } else {
+      // garante não enviar header Authorization vazio
+      delete config.headers['Authorization'];
+    }
+
+    return config;
+  },
+  error => Promise.reject(error)
+);
+
+
